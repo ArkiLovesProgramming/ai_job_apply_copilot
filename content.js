@@ -853,19 +853,19 @@ function debugLog(...args) {
 
     try {
       // Build prompt - 全部放在 user message 中
-      let prompt = `你是专业的职业顾问，帮助求职者回答求职申请中的开放性问题。
-- 使用第一人称，专业但亲切的语气
-- 回答简洁（2-4句话）
-- 结合个人背景中的具体例子
-- 突出可量化的成就和成果
-- 根据问题复杂度调整回答长度
+      let prompt = `You are a professional career advisor helping job seekers answer open-ended questions in job applications.
+- Use first-person, professional but friendly tone
+- Keep answers concise (2-4 sentences)
+- Draw from specific examples in your background
+- Highlight quantifiable achievements and results
+- Adjust length based on question complexity
 
 `;
 
       // 岗位相关信息
       if (jobInfo && jobInfo.title) {
-        prompt += `岗位相关信息：\n`;
-        prompt += `职位：${jobInfo.title}`;
+        prompt += `Job Details:\n`;
+        prompt += `Position: ${jobInfo.title}`;
         if (jobInfo.company) {
           prompt += ` at ${jobInfo.company}`;
         }
@@ -875,7 +875,7 @@ function debugLog(...args) {
         const MAX_DESC_LENGTH = 5000;
         if (jobInfo.description) {
           const truncatedDesc = jobInfo.description.substring(0, MAX_DESC_LENGTH);
-          prompt += `职位描述：${truncatedDesc}\n`;
+          prompt += `Job Description: ${truncatedDesc}\n`;
         }
         prompt += '\n';
       }
@@ -887,11 +887,11 @@ function debugLog(...args) {
         if (userContext.length > MAX_USER_CONTEXT_LENGTH) {
           truncatedUserContext = userContext.substring(0, MAX_USER_CONTEXT_LENGTH) + '...';
         }
-        prompt += `申请人个人信息：\n${truncatedUserContext}\n\n`;
+        prompt += `Candidate Information:\n${truncatedUserContext}\n\n`;
       }
 
       // 问题
-      prompt += `请回答以下问题（2-4句话，直接回答，无需前言）：\n${question}`;
+      prompt += `Please answer the following question (2-4 sentences, direct answer, no intro):\n${question}`;
 
       // 只需要 user message，不需要 system message
       const messages = [
