@@ -1,105 +1,41 @@
 # AI Apply Copilot
 
-An AI-powered Chrome extension that automatically detects and fills open-ended questions on job application forms.
+Chrome extension that auto-fills open-ended questions on job applications using AI.
+
+## Quick Start
+
+1. Install: Load `ai_apply_copilot` folder in Chrome (`chrome://extensions/`)
+2. Configure API in extension popup (MiniMax M2.5 recommended)
+3. Visit any job application page - questions auto-detected
+4. Click ⚡ to generate AI responses
 
 ## Features
 
-- **Auto-detection**: Automatically identifies open-ended questions on job application forms
-- **Works with Simplify**: Pairs perfectly with [Simplify](https://simplify.jobs/) extension to auto-fill applications, then use AI Apply Copilot to handle open-ended questions
-- **AI-powered**: Uses LLM (OpenAI compatible APIs) to generate personalized responses
-- **Multi-platform support**: Works with Greenhouse, Lever, Workday, SmartRecruiters, and other ATS systems
-- **Context-aware**: Reads job descriptions and company info to provide relevant answers
-- **Custom user context**: Save your background, skills, and experiences for personalized responses
-
-## Installation
-
-### From Source
-
-1. Clone this repository
-2. Open Chrome and navigate to `chrome://extensions/`
-3. Enable "Developer mode" (top right)
-4. Click "Load unpacked"
-5. Select the `ai_apply_copilot` folder
+- Auto-detects open-ended questions on job forms
+- Works with Simplify extension
+- Supports MiniMax, OpenAI, Ollama, and any OpenAI-compatible API
+- Context-aware: reads job descriptions for relevant answers
 
 ## Setup
 
-1. Click the extension icon in Chrome
-2. Go to the "API" tab
-3. Enter your API settings:
-   - **Base URL**: Your API endpoint (default: `https://api.minimax.chat/v1`)
-   - **Model**: Model name (default: `MiniMax-M2.5`)
-   - **API Key**: Your API key
-4. Click "Test Connection" to verify
+1. Click extension icon → API tab
+2. Enter API settings (MiniMax recommended):
+   - Base URL: `https://api.minimax.chat/v1`
+   - Model: `MiniMax-M2.5`
+   - API Key: Get from [platform.minimax.io](https://platform.minimax.io/)
+3. Test Connection
 
-### Using MiniMax (Recommended)
+### Other Providers
 
-- Base URL: `https://api.minimax.chat/v1`
-- Model: `MiniMax-M2.5` (recommended for best speed and quality)
-- API Key: Get from [MiniMax Platform](https://platform.minimax.io/)
-
-### Using OpenAI
-
-- Base URL: `https://api.openai.com/v1`
-- Model: `gpt-4o-mini`, `gpt-4o` or `gpt-4o-2025-01-27`
-
-### Using Other Providers
-
-Compatible with any OpenAI-compatible API:
-- [Ollama](https://ollama.ai/)
-- [LM Studio](https://lmstudio.ai/)
-- [Jan.ai](https://jan.ai/)
-- [OneAPI](https://github.com/songxian/one-api)
-
-## Usage
-
-1. Visit a job application page
-2. The extension automatically detects open-ended questions
-3. Click the "⚡" button next to any question
-4. AI generates a personalized response based on:
-   - Job title and company
-   - Job description
-   - Your saved context
-
-### User Context
-
-Add your background info in the "User" tab:
-- Work experience
-- Skills
-- Achievements
-- Career goals
-
-This helps AI generate more relevant responses.
-
-## Supported Platforms
-
-- Greenhouse
-- Lever
-- Workday
-- SmartRecruiters
-- Jobvite
-- Taleo
-- iCIMS
-- Ashby
-- Recruitee
-- And more...
+| Provider | Base URL | Model |
+|----------|----------|-------|
+| OpenAI | `https://api.openai.com/v1` | `gpt-4o-mini` |
+| Ollama | `http://localhost:11434/v1` | `llama3` |
 
 ## Privacy
 
-- All data is stored locally in your browser
-- API keys are encrypted in Chrome storage
-- No data is sent to any server except your configured AI API
-- Job info is extracted only from pages you visit
-
-## Tech Stack
-
-- Vanilla JavaScript (no framework)
-- Chrome Extension APIs
-- OpenAI Compatible APIs
+All data stays local. API keys stored in Chrome. Only your configured AI API receives data.
 
 ## License
 
-MIT License - see [LICENSE](LICENSE)
-
-## Contributing
-
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+MIT
