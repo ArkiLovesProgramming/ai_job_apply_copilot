@@ -2,7 +2,9 @@
 
 Chrome extension that auto-fills open-ended questions on job applications using AI.
 
-## Quick Start <!-- VIDEO -->
+## Quick Start
+
+https://github.com/user-attachments/assets/875899af-1b47-4135-98f2-c01df53236c7
 
 1. Install: Load `ai_apply_copilot` folder in Chrome (`chrome://extensions/`)
 2. Configure API in extension popup (MiniMax M2.5 recommended)
