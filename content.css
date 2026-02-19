@@ -1,0 +1,113 @@
+
+/* AI Apply Copilot - Injected Styles */
+
+/* AI Fill Button */
+.ai-copilot-fill-btn {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #000000 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 24px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  z-index: 10000 !important;
+  position: relative !important;
+}
+
+.ai-copilot-fill-btn:hover {
+  background: #333333 !important;
+}
+
+.ai-copilot-fill-btn:disabled {
+  opacity: 0.7 !important;
+  cursor: not-allowed !important;
+}
+
+.ai-copilot-fill-btn svg {
+  flex-shrink: 0;
+}
+
+/* Loading spinner - CSS-based circular spinner */
+.ai-copilot-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: ai-copilot-spin 0.8s linear infinite;
+}
+
+@keyframes ai-copilot-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Button wrapper positioning */
+.ai-copilot-btn-wrapper {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-left: 8px !important;
+  margin-right: 8px !important;
+  vertical-align: middle !important;
+  position: relative !important;
+  z-index: 10000 !important;
+  flex-shrink: 0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Ensure button is visible even in flex containers */
+.ai-copilot-btn-wrapper {
+  min-width: auto !important;
+  height: auto !important;
+}
+
+/* Container for wrapped inputs - ensure button appears below */
+.ai-copilot-input-container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  width: 100% !important;
+  position: relative;
+}
+
+/* Make sure textarea has room for button */
+.ai-copilot-input-container textarea,
+.ai-copilot-input-container input[type="text"] {
+  min-height: 80px;
+}
+
+/* Toast notification */
+.ai-copilot-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #000000;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 999999;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.ai-copilot-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ai-copilot-toast.error {
+  background: #333333;
+}

@@ -1,0 +1,473 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-bg: #FFFFFF;
+      --color-bg-secondary: #FAFAFA;
+      --color-text-primary: #000000;
+      --color-text-secondary: #666666;
+      --color-text-muted: #9CA3AF;
+      --color-border: #E5E7EB;
+      --color-border-focus: #000000;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 24px;
+    }
+    body {
+      width: 380px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+    }
+    .header {
+      padding: 10px 20px;
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .header svg { width: 20px; height: 20px; }
+    .header h1 { font-size: 13px; font-weight: 600; }
+    .header p { font-size: 10px; color: var(--color-text-muted); }
+
+    .tabs {
+      display: flex;
+      justify-content: space-between;
+      background: var(--color-bg);
+      padding: 10px 20px 0;
+      gap: 8px;
+    }
+    .tab {
+      flex: 1;
+      padding: 8px 4px;
+      background: transparent;
+      border: none;
+      font-size: 12px;
+      font-weight: 400;
+      text-align: center;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .tab.active {
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    .tab.active::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background: var(--color-text-primary);
+      border-radius: 50%;
+    }
+    .tab:not(.active):hover {
+      color: var(--color-text-secondary);
+    }
+
+    .tab-content {
+      display: none;
+      padding: 16px 20px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .tab-content.active { display: block; }
+
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      margin-bottom: 8px;
+    }
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-family: inherit;
+      transition: all 0.2s;
+      background: var(--color-bg-secondary);
+    }
+    .field input:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--color-border-focus);
+      border-width: 2px;
+      box-shadow: none;
+    }
+    .field textarea { resize: vertical; min-height: 100px; }
+
+    .btn {
+      padding: 14px 24px;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+    }
+    .btn-primary {
+      background: #000000;
+      color: #FFFFFF;
+    }
+    .btn-primary:hover {
+      background: #333333;
+    }
+    .btn-secondary {
+      background: #FFFFFF;
+      color: #000000;
+      border: 1px solid #E5E7EB;
+    }
+    .btn-secondary:hover {
+      background: var(--color-bg-secondary);
+    }
+
+    .status {
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .status.success {
+      display: block;
+      background: var(--color-bg-secondary);
+      border: 1px solid #E5E7EB;
+      color: var(--color-text-primary);
+    }
+    .status.error {
+      display: block;
+      background: var(--color-bg-secondary);
+      border: 1px solid #E5E7EB;
+      color: var(--color-text-primary);
+    }
+
+    .job-info-card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .job-info-card .empty {
+      text-align: center;
+      color: var(--color-text-muted);
+      font-size: 13px;
+      padding: 32px 24px;
+    }
+    .job-info-item {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .job-info-item:last-child {
+      border-bottom: none;
+    }
+    .job-info-label {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      font-weight: 500;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .job-info-value {
+      font-size: 13px;
+      color: var(--color-text-primary);
+      font-weight: 500;
+      word-break: break-word;
+    }
+    .job-info-value.description {
+      font-weight: 400;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .options-card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .options-card .toggle-row {
+      padding: 14px 16px;
+    }
+    .options-card .toggle-row:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      margin-bottom: 16px;
+      letter-spacing: 0.3px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .toggle-row:last-of-type {
+      border-bottom: none;
+      margin-bottom: 8px;
+    }
+    .toggle-row span { font-size: 13px; color: var(--color-text-primary); }
+    .toggle-switch {
+      position: relative;
+      width: 40px;
+      height: 22px;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--color-border);
+      transition: 0.3s;
+      border-radius: 22px;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    .toggle-switch input:checked + .toggle-slider { background-color: #000000; }
+    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(18px); }
+
+    .footer {
+      padding: 10px 20px;
+      background: var(--color-bg);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-text { font-size: 11px; color: var(--color-text-muted); }
+    .footer-github {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--color-text-muted);
+      transition: color 0.2s;
+    }
+    .footer-github:hover {
+      color: var(--color-text-primary);
+    }
+
+    /* 标签行内操作按钮 */
+    .field-with-action label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .label-action {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    .label-action:hover {
+      color: var(--color-text-primary);
+      text-decoration: underline;
+    }
+
+    /* 带切换按钮的输入框 */
+    .input-with-toggle {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-with-toggle input {
+      padding-right: 40px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--color-text-muted);
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .toggle-password:hover {
+      color: var(--color-text-primary);
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .spin { animation: spin 1s linear infinite; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+    </svg>
+    <h1>AI Apply Copilot - <span style="color: var(--color-text-muted); font-weight: 400;">Auto-fill open questions</span></h1>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="api">API Settings</button>
+    <button class="tab" data-tab="user">User Info</button>
+    <button class="tab" data-tab="job">Job Info</button>
+    <button class="tab" data-tab="options">Options</button>
+  </div>
+
+  <!-- API Config Tab -->
+  <div class="tab-content active" id="tab-api">
+    <div id="apiStatus" class="status"></div>
+
+    <div class="section-title">API Configuration</div>
+
+    <div class="field">
+      <label>Base URL</label>
+      <input type="text" id="aiBaseURL" placeholder="https://api.minimax.chat/v1" />
+    </div>
+
+    <div class="field">
+      <label>Model</label>
+      <input type="text" id="aiModel" placeholder="MiniMax-M2.5" />
+    </div>
+
+    <div class="field field-with-action">
+      <label>
+        API Key
+        <span class="label-action" id="testApiBtn">Test Connection</span>
+      </label>
+      <div class="input-with-toggle">
+        <input type="password" id="apiKey" placeholder="sk-..." />
+        <button type="button" class="toggle-password" id="togglePassword">
+          <svg class="eye-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <svg class="eye-closed" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+            <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+            <line x1="1" y1="1" x2="23" y2="23"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="saveApiBtn">
+      Save API Settings
+    </button>
+  </div>
+
+  <!-- User Info Tab -->
+  <div class="tab-content" id="tab-user">
+    <div id="userStatus" class="status"></div>
+
+    <div class="section-title">Your Context</div>
+
+    <div class="field">
+      <label>Background & Achievements</label>
+      <textarea id="userContext" placeholder="Your background, key achievements, strengths, and what makes you unique..." maxlength="5000"></textarea>
+    </div>
+
+    <button class="btn btn-primary" id="saveUserBtn">
+      Save Context
+    </button>
+  </div>
+
+  <!-- Job Info Tab -->
+  <div class="tab-content" id="tab-job">
+    <div class="section-title">Current Job Position</div>
+
+    <div class="job-info-card">
+      <div class="empty" id="jobEmpty">
+        <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin: 0 auto 8px; display: block; opacity: 0.5;">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z"/>
+        </svg>
+        No job info detected yet.<br/>Visit a job application page.
+      </div>
+      <div id="jobInfoContent" style="display: none;">
+        <div class="job-info-item">
+          <div class="job-info-label">Position</div>
+          <div class="job-info-value" id="jobTitle">-</div>
+        </div>
+        <div class="job-info-item">
+          <div class="job-info-label">Company</div>
+          <div class="job-info-value" id="jobCompany">-</div>
+        </div>
+        <div class="job-info-item">
+          <div class="job-info-label">Description</div>
+          <div class="job-info-value description" id="jobDescription">-</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="refreshBtn" style="margin-top: 16px;">
+      Refresh & Rescan Page
+    </button>
+  </div>
+
+  <!-- Options Tab -->
+  <div class="tab-content" id="tab-options">
+    <div class="section-title">Settings</div>
+
+    <div class="options-card">
+      <div class="toggle-row">
+        <span>Auto-detect on job sites</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="autoDetect" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <span>Show AI Fill buttons</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="showButtons" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://github.com/ArkiLovesProgramming" target="_blank" class="footer-github">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+      </svg>
+      <span>Star & Feedback</span>
+    </a>
+    <span class="footer-text" id="currentSite">-</span>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
