@@ -5,6 +5,7 @@ An AI-powered Chrome extension that automatically detects and fills open-ended q
 ## Features
 
 - **Auto-detection**: Automatically identifies open-ended questions on job application forms
+- **Works with Simplify**: Pairs perfectly with [Simplify](https://simplify.jobs/) extension to auto-fill applications, then use AI Apply Copilot to handle open-ended questions
 - **AI-powered**: Uses LLM (OpenAI compatible APIs) to generate personalized responses
 - **Multi-platform support**: Works with Greenhouse, Lever, Workday, SmartRecruiters, and other ATS systems
 - **Context-aware**: Reads job descriptions and company info to provide relevant answers
